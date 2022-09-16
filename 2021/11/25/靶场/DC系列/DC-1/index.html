@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="John Doe" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      DC-1 
+      
+      
+      |
+    
+     xiaoguai
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/github-markdown.css">
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+  <!-- jquery3.3.1 -->
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- fancybox -->
+  <link href="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.css" rel="stylesheet">
+  <script async src="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.js"></script>
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">小怪</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+<!-- LaTex Display -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">DC-1</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime" title="更新时间"></i>
+          2021-11-25 12:16:47
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags" title="标签"></i>
+                
+                <span class="span--tag">
+                  <a href="/tags/DC/" title="DC">
+                    <b>#</b> DC
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="DC-1靶场"><a href="#DC-1靶场" class="headerlink" title="DC-1靶场"></a>DC-1靶场</h1><p>实验环境：</p>
+<p>​	kali：192.168.200.10</p>
+<p>​	DC-1：192.168.200.167</p>
+<p>当我们拿到一个靶场，部署在虚拟机中，我们第一件事肯定是去拿到这个ip后去扫描端口</p>
+<p>查看开放了哪些端口</p>
+<p>在kali中使用 nmap -sN 进行ip监测存活</p>
+<p>而后定位到DC-1的ip后，使用nmap -A -v -T4 -p 1-65535   192.168.200.167来查看开放了那些端口</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/1.jpg" alt="获取ip开放端口"></p>
+<p>主机主要开放了22、80、111、4444和一个42636端口</p>
+<p>看到80，我一般习惯性去查一下80端口</p>
+<p>打开80端口</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/2.jpg" alt="插看80端口"></p>
+<p>发现为Drupal cms管理系统，而后想查看是否有可用EXP</p>
+<blockquote>
+<p>存有一个疑问：是否可以判断此cms版本</p>
+</blockquote>
+<p>使用msf进行尝试</p>
+<p>进入msf后，我们搜索一下这个cms相关漏洞，使用如下漏洞进行攻击</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/3.jpg"></p>
+<p>进行如下操作，得到一个交互界面</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/4.jpg"></p>
+<h2 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h2><p>进行简单的查看得到flag1</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/flag1.jpg" alt="flag1"></p>
+<p>flag1提示我们需要config文件</p>
+<p>从网上进行查找。发现如下</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/5.jpg"></p>
+<p>在这个路径中进行翻找，查看，成功在sites&#x2F;default路径下找到一个 settings.php文件</p>
+<p>查看，发现如下</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/6.jpg"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x27;database&#x27; =&gt; &#x27;drupaldb&#x27;,</span><br><span class="line">   &#x27;username&#x27; =&gt; &#x27;dbuser&#x27;,</span><br><span class="line">   &#x27;password&#x27; =&gt; &#x27;R0ck3t&#x27;,</span><br><span class="line">   &#x27;host&#x27; =&gt; &#x27;localhost&#x27;,</span><br><span class="line">   &#x27;port&#x27; =&gt; &#x27;&#x27;,</span><br><span class="line">   &#x27;driver&#x27; =&gt; &#x27;mysql&#x27;,</span><br><span class="line">   &#x27;prefix&#x27; =&gt; &#x27;&#x27;,</span><br></pre></td></tr></table></figure>
+
+<p>获得数据库账号密码，登陆下查看一下</p>
+<p>使用shell进入命令行界面</p>
+<p>但是此时我们mysql进入，会报错</p>
+<p>我们使用  python -c “import pty;pty.spawn(‘&#x2F;bin&#x2F;bash’)”  产生一个交互命令行</p>
+<blockquote>
+<p>使用python前提条件：被攻击机器需要装有python</p>
+<p>这个pyhon产生交互命令行的原理就是利用python 的pty库产生一个伪终端模拟shell</p>
+</blockquote>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/7.jpg"></p>
+<p>使用伪终端后我们成功进入mysql</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/8.jpg"></p>
+<p>使用如下命令</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> databases;</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> use drupaldb;</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> tables;</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users;</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> name,pass <span class="keyword">from</span> users;</span><br></pre></td></tr></table></figure>
+
+<p>我们得到一个加密过后的密码</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/9.jpg"></p>
+<p>此时想去解密破解密码，但是无法破解，索性直接进行修改，从网上找到一个相同加密的，密码</p>
+<p>明文：password</p>
+<p>密文：$S$CDbdwZvjHQ09IVRs88G0fnaxPr50&#x2F;kb81YI9.8M&#x2F;D9okW7J&#x2F;s5U4</p>
+<p>接下来我们把管理员的密码重置下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">update</span> users <span class="keyword">set</span> pass<span class="operator">=</span><span class="string">&#x27;$S$CDbdwZvjHQ09IVRs88G0fnaxPr50/kb81YI9.8M/D9okW7J/s5U4&#x27;</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;admin&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/10.jpg">此时我们登录前端页面进行登录</p>
+<p>用户名：admin</p>
+<p>密码：password</p>
+<h2 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h2><p>前端登录后，点点查看一下，发现了flag3</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/flag3.jpg"></p>
+<p>根据flage3提示，我们需要使用find进行提权</p>
+<h4 id="find提权"><a href="#find提权" class="headerlink" title="find提权"></a>find提权</h4><p>find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null</p>
+<p>使用find查找具有root权限相同SUID的权限</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/11.jpg"></p>
+<p>查看</p>
+<h2 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h2><p>突然想尝试下搜索flag，结果发现了flag4</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/12.jpg"></p>
+<p>我们尝试用find执行命令</p>
+<p># 这里需要注意-name参数填写的文件名，是需要系统真实存在的</p>
+<p> find &#x2F; -name flag4 -exec “whoami” ;</p>
+<p>进行提权</p>
+<p>find &#x2F; -name flag4 -exec “&#x2F;bin&#x2F;sh” ;</p>
+<p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/13.jpg"></p>
+<p>而后在里边进行寻找，在root目录下，找到flag</p>
+<h2 id="最后的flag"><a href="#最后的flag" class="headerlink" title="最后的flag"></a>最后的flag</h2><p><img src="/2021/11/25/%E9%9D%B6%E5%9C%BA/DC%E7%B3%BB%E5%88%97/DC-1/flag.jpg"></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2021/10/27/python/Django/%E5%9F%BA%E7%A1%80/Django%E5%9F%BA%E7%A1%80/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime" title="更新时间"></i>
+              2021-11-25 12:16:47
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags" title="标签"></i>
+                    
+                    <span class="span--tag">
+                      <a href="/tags/DC/" title="DC">
+                        <b>#</b> DC
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/09/16/hello-world/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div class="post-catalog" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-1%E9%9D%B6%E5%9C%BA"><span class="toc-text">DC-1靶场</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#flag1"><span class="toc-text">flag1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flag3"><span class="toc-text">flag3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#find%E6%8F%90%E6%9D%83"><span class="toc-text">find提权</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flag4"><span class="toc-text">flag4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84flag"><span class="toc-text">最后的flag</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+
+  <div id="vcomments"></div>
+
+  <script>
+    new Valine({
+      el: '#vcomments',
+      appId: 'XQduehpsLWxnRop6GMQGqCI1-gzGzoHszf4Vc248',
+      appKey: 'c2auC2hGniGEFQk1Kf4Vc248',
+      placeholder: 'Welcome!',
+      avatar: 'retro',
+      lang: 'zh-CN'
+    })
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        <div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/xiaoguaidel">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="email" href="1346541136@qq.com">
+            <i class="iconfont icon-envelope"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="facebook" href="">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="twitter" href="">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="wechat" href="nulidexuemouren">
+            <i class="iconfont icon-wechat"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="qq" href="1346541136">
+            <i class="iconfont icon-qq"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/xiaoguaidel">Copyright © Oranges 2020</a>
+        
+    </div>
+  
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/xiaoguaidel">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+</div>
+
+      </div>
+
+      <div class="back-to-top hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+      
+  <div class="search-icon" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索点什么好呢，您说搜啥就搜啥！">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+    </div>
+  </body>
+</html>
